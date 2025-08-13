@@ -8,19 +8,15 @@ fn main() {
 
     let mut y = 0;
 
-    loop {
+    for _ in 0..=5 {
         y += 1;
-        if y > 5 {
-            break;
-        }
     }
 
     println!("{}", y);
 
-    const GRADE_STR: &str = "Your grade is";
     match grade(48) {
-        Ok(g) => println!("{GRADE_STR}: {g}"),
-        Err(e) => println!("{GRADE_STR}: {e}"),
+        Ok(g) => println!("Your grade is: {g}"),
+        Err(e) => println!("Your grade is: {e}"),
     }
 
     println!("{}", fizzbuzz(60));
