@@ -1,5 +1,6 @@
 use generic_trait_lifetime::Summary;
 use std::cmp::PartialOrd;
+// use std::fmt::{Debug, Display};
 
 #[derive(Debug)]
 struct Point<T, U> {
@@ -46,6 +47,7 @@ impl Summary for NewsArticle {
     }
 }
 
+#[derive(Debug)]
 struct SocialPost {
     username: String,
     content: String,
@@ -99,6 +101,9 @@ fn main() {
     println!("{}", social_post.summary());
     println!("{}", social_post.summary_with_default());
     println!("{}", social_post.summary_from_summary());
+
+    notify(&social_post);
+    // notify2(&article, &social_post);
 }
 
 fn largest<T: PartialOrd>(lst: &[T]) -> &T {
@@ -112,3 +117,45 @@ fn largest<T: PartialOrd>(lst: &[T]) -> &T {
 
     largest
 }
+
+/*
+    trait bound implementation as parameter with various syntax
+*/
+
+// fn notify(item: &impl Summary) -> String {
+//     format!("{}", item.summary_from_summary())
+// }
+// fn notify<T: Summary>(item: &T) -> String {
+//     format!("{}", item.summary_with_default())
+// }
+fn notify<T>(item: &T) -> String
+where
+    T: Summary,
+{
+    format!("{}", item.summary_from_summary())
+}
+// fn notify2<T>(item1: &(impl Summary + Display), item2: &(impl Summary + Display)) -> String {
+//     format!(
+//         "{}",
+//         item1.summary_from_summary() + &item2.summary_with_default()
+//     )
+// }
+// fn notify2<T: Summary + Display>(item1: &T, item2: &T) -> String {
+//     format!(
+//         "{}",
+//         item1.summary_from_summary() + &item2.summary_with_default()
+//     )
+// }
+// fn notify2<T>(item1: &T, item2: &T) -> String
+// where
+//     T: Summary + Display,
+// {
+//     format!(
+//         "{}",
+//         item1.summary_from_summary() + &item2.summary_with_default()
+//     )
+// }
+
+/*
+    trait bound as
+*/
