@@ -65,7 +65,7 @@ fn main() {
         "4".to_string(),
     ];
 
-    loop {
+    'main_loop: loop {
         println!("What do you want to do?");
         println!("1. Add new a task");
         println!("2. Delete an existing task");
@@ -75,9 +75,8 @@ fn main() {
         let user_input = get_user_input();
 
         while !valid_inputs.contains(&user_input) {
-            if !valid_inputs.contains(&user_input) {
-                println!("Enter an option between 1 and 4");
-            }
+            println!("Enter an option between 1 and 4");
+            continue 'main_loop;
         }
 
         match user_input.as_str() {
@@ -104,6 +103,11 @@ fn add_a_task(tasks: &mut Vec<Task>) {
 }
 
 fn delete_a_task(tasks: &mut Vec<Task>) {
+    if tasks.is_empty() {
+        println!("No task to delete");
+        return;
+    }
+
     tasks
         .iter()
         .enumerate()
@@ -135,11 +139,15 @@ fn list_tasks(tasks: &Vec<Task>) {
 }
 
 fn get_user_input() -> String {
-    let mut input = String::new();
-    stdin()
-        .read_line(&mut input)
-        .expect("Failed to read your option");
-    input = input.trim().to_string();
+    loop {
+        let mut input = String::new();
 
-    input
+        match stdin().read_line(&mut input) {
+            Ok(_) => return input.trim().to_string(),
+            Err(_) => {
+                println!("A problem occurred, retry!");
+                continue;
+            }
+        }
+    }
 }
