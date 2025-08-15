@@ -71,7 +71,10 @@ fn main() {
 
         match user_action_input.as_str() {
             "1" => add_a_task(&mut tasks, &mut user_action_input),
-            "2" => println!("Deleting a task"),
+            "2" => {
+                delete_a_task(&mut tasks);
+                reset_user_input(&mut user_action_input);
+            }
             "3" => println!("Editing a task"),
             "4" => {
                 tasks.iter().for_each(|t| println!("{}", t));
@@ -102,4 +105,28 @@ fn add_a_task(tasks: &mut Vec<Task>, user_action_input: &mut String) {
     let new_task = Task::new(next_id, title, desc);
     tasks.push(new_task);
     reset_user_input(user_action_input);
+}
+
+fn delete_a_task(tasks: &mut Vec<Task>) {
+    tasks.iter().enumerate().for_each(|(i, t)| {
+        println!("{}. {}", i + 1, t.title);
+    });
+
+    println!("Enter the number of the task to delete:");
+    let mut user_selection = String::new();
+    let tasks_len = tasks.len();
+
+    stdin()
+        .read_line(&mut user_selection)
+        .expect("Failed to read");
+
+    user_selection.pop();
+    let user_selection: usize = user_selection.parse().unwrap_or(0);
+
+    if !(1..=tasks_len).contains(&user_selection) {
+        println!("Not a task number");
+        return;
+    }
+
+    (*tasks).remove(user_selection - 1);
 }
