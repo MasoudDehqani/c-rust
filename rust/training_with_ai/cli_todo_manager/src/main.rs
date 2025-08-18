@@ -1,4 +1,4 @@
-use std::{fmt, io::stdin};
+use std::{fmt, io::stdin, ops::RangeInclusive};
 
 enum TaskStatus {
     Done,
@@ -58,23 +58,25 @@ enum UserAction {
 fn main() {
     let mut tasks: Vec<Task> = Vec::new();
 
-    let valid_inputs = [
-        "1".to_string(),
-        "2".to_string(),
-        "3".to_string(),
-        "4".to_string(),
-    ];
-
     'main_loop: loop {
         println!("What do you want to do?");
-        println!("1. Add new a task");
-        println!("2. Delete an existing task");
-        println!("3. Edit an existing task");
-        println!("4. See all tasks");
+
+        let top_level_options = [
+            "Add new Task",
+            "Delete an existing task",
+            "Edit an existing task",
+            "See all tasks",
+        ]
+        .map(|s| s.to_string());
+
+        top_level_options
+            .iter()
+            .enumerate()
+            .for_each(|(i, op)| println!("{}. {}", i + 1, op));
 
         let user_input = get_user_input();
 
-        while !valid_inputs.contains(&user_input) {
+        while !validate_user_input_range(&user_input, 1..=user_input.len()) {
             println!("Enter an option between 1 and 4");
             continue 'main_loop;
         }
@@ -147,5 +149,12 @@ fn get_user_input() -> String {
                 continue;
             }
         }
+    }
+}
+
+fn validate_user_input_range(user_input: &String, range: RangeInclusive<usize>) -> bool {
+    match user_input.parse::<usize>() {
+        Ok(n) => range.contains(&n),
+        Err(_) => false,
     }
 }
