@@ -119,7 +119,7 @@ fn main() {
     let first_word = first_word(&str);
     println!("first word is: {first_word}");
 
-    let &s = get_f("TEST");
+    let _s = get_f("TEST");
 }
 
 fn get_f(s: &str) -> &str {
