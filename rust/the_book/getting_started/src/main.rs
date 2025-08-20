@@ -16,7 +16,7 @@
 
     by using this command:
     rustc main.rs
-    outside a cargo project, an executable file is produced by the compiler wich can
+    outside a cargo project, an executable file is produced by the compiler which can
     be executed by:
     ./main
 
@@ -32,7 +32,30 @@
     - Rust macros are a way to write code that generates code to extend Rust syntax
 
     - compiling and running are separate steps in Rust
+    - Rust is an ahead-of-time compiled language
 
+    - cargo is Rust's build system and package manager
+    - dependencies -> libraries that your code needs
+    - cargo in installed automatically using rustup
+
+    - cargo.toml is the config file in the root of a cargo project
+    - TOML -> cargo configuration format file
+    - TOML -> Tom's obvious, minimal language
+    - [package] - [dependencies]
+    - cargo expects the source files live in the src directory
+    - the top level project directory is only for files like readme, configs, license info and
+    anything else not related to your code
+
+    - in Rust, packages of code are referred to as crates
+
+    - executable files in a cargo project:
+    in debug mode (default build in cargo) -> target/debug
+    in release mode -> target/release
+
+    cargo.lock file keeps track of the exact versions of dependencies in the project
+
+    - cargo build --release
+    - compile with optimization
 */
 
 fn main() {
