@@ -12,16 +12,24 @@
     - ownership as a discipline for memory safety
     - Rust provides a particular way to think about memory
     - stack frame
+    - stack frames are automatically managed by Rust. Once a function is called, a stack frame
+    is allocated and by the end of the execution of the function the stack frame is deallocated
     - reference is a type of pointer
     - borrowing
     - variables live in the stack
     - boxes live in the heap
-    - Rust does not allow manual memory management (does no allow manual deallocation)
+    - memory management, in general, is the process of allocating memory and deallocating memory
+    - Rust does not allow manual memory management (does no allow manual deallocation). Rust does
+    not have free() function like C programming language.
     - But what are Drop trait and std::mem::drop method???
     - deallocation - freeing - dropping
     - focusing on frame-only variables is for better understanding of safety in Rust, but in fact
     compiler may put the variable in the register instead of stack frame. it is the implementation
     details and should not affect the understanding of the concept of safety in Rust
+    - A Box's owner manages deallocation
+    - Box is only a pointer to heap memory
+    - if a variable owns a box, when Rust deallocates the variable's frame, Rust deallocate the
+    box's heap memory
     - only types that implement Copy trait can be copied implicitly
     - copying all kinds of value can be expensive
     - Rust uses pointer to access data without copying
@@ -47,6 +55,15 @@
 
     - heap data is not tied to a specific stack frame
     - one common way to make a pointer is to allocate memory in the heap
+    - collections like vectors, String, and HashMap uses Box
+
+    - pointing to an invalid memory by a pointer in not problematic, using the invalid
+    pointer is the issue
+
+    - variables cannot be used after being moved
+    - cloning avoids moves
+
+    - mutable reference disband all permissions from variables
 */
 
 fn main() {
