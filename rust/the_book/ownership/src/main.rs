@@ -64,6 +64,45 @@
     - cloning avoids moves
 
     - mutable reference disband all permissions from variables
+
+    - move-only APIs can be inconvenient to use
+    - ownership of a variable which is moved to a function can be returned again by
+    the function. but using it is verbose
+
+    - &str type also includes &String but &String does not include &str
+
+    - references are non-owning pointers
+    - boxes are owning pointers
+
+    - Rust implicitly insert dereferences and references in certain cases
+    - These implicit conversions work for multiple layers of pointers
+    - You won't be probably see the dereference operator very often when you read
+    Rust code, because of implicit dereferencing
+
+    - aliasing (immutable reference)
+    - mutation
+    - Rust avoids simultaneous aliasing and mutation
+    - aliasing is accessing the same data through different variables
+    - aliasing by itself is harmless. but combined with mutation could be disaster
+
+    - references change permissions on places
+    - a place is whatever can be used on left-hand side of an assignment
+
+    - ensuring the safety of references by borrow checker
+
+    - variables have 4 kinds of permissions on their data:
+    Read (R)
+    Write (W)
+    Own (O)
+    Flow (F)
+
+    - the borrow checker finds permission violations
+    - mutable references provide unique and non-owning access to data
+    - immutable references (shared references)
+    - mutable references (unique references)
+
+    - permissions returned at the end of references' lifetime
+    - data must outlive all of its references
 */
 
 fn main() {
@@ -188,6 +227,19 @@ fn main() {
     println!("first word is: {first_word}");
 
     let _s = get_f("TEST");
+
+    // explicit and implicit dereferencing and referencing
+    let x = Box::new(-5);
+    let _x_abs = i32::abs(*x); // explicit dereference
+    let _x_abs = x.abs(); // implicit dereference
+
+    let x_ptr = &x;
+    let _x_abs = i32::abs(**x_ptr); // explicit dereference (twice)
+    let _x_abs = x_ptr.abs(); // implicit dereference (twice)
+
+    let s = String::from("Hello");
+    let _s_len = str::len(&s); // explicit reference
+    let _s_len = s.len(); // implicit reference
 }
 
 fn get_f(s: &str) -> &str {
