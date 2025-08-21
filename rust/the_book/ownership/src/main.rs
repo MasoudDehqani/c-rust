@@ -103,6 +103,8 @@
 
     - permissions returned at the end of references' lifetime
     - data must outlive all of its references
+
+    - ownership VS garbage collection
 */
 
 fn main() {
