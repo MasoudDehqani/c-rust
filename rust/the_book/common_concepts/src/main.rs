@@ -157,6 +157,34 @@
     happens in languages like C where the assignment return the value of the
     assignment.
     C code example: int x = y = 6; -> both x and y will have the value 6
+
+    - calling a function is an expression
+    - calling a macro is an expression
+    - a scope block created with curly brackets is an expression
+    - expressions do not end with semicolon. adding semicolon to the end of an expression
+    will turn it to statement
+
+
+    Control Flow
+
+    - if expression
+    - else if
+    - else
+    - we can optionally include an else expression
+    - using if else like ternary operator in other languages
+    - if expressions allow you to branch your code depending on conditions
+    - branch - arm
+    - the condition part of if expression must be of type boolean
+    - if the condition of if is not boolean, it would be an undefined situation in Rust
+    - loops: loop, while, for
+    - continue, break
+    - a value can be placed after break to return from the loop
+    - a loop can be labelled: 'loop_name: loop
+    - both return and break cause a change in control flow, both can take an expression as
+    argument, compiler treat them as having unit value when using without any expression
+    - looping through a collection with for loop
+    - using range in for loop
+    - while loop is a conditional loop
 */
 
 fn main() {
@@ -168,4 +196,11 @@ fn main() {
     let arr: [i32; 4] = [1, 2, 3, 4];
     let arr = [3; 5];
     println!("{:?}", arr);
+
+    another_function();
+}
+
+// doesn't matter a function is defined before or after where it is used. the compiler can see it in the scope
+fn another_function() {
+    println!("another function");
 }
