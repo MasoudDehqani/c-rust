@@ -68,6 +68,16 @@
     - integer type defaults to i32 in Rust
 
     - integer overflow
+    - in debug mode, integer overflow will be checked and cause the program to
+    panic at runtime
+    - building in release mode with --release flag, integer overflow won't be
+    checked and instead of panic, the two's complement wrapping occurs
+
+    - methods for explicitly handle possibility of overflows:
+    wrapping_*
+    checked_*
+    overflowing_*
+    saturating_*
 */
 
 fn main() {
