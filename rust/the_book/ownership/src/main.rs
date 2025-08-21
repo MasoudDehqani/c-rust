@@ -1,6 +1,6 @@
 fn main() {
     /*
-        As in Rust a value can only have one owenership at a time, here the owenership of
+        As in Rust a value can only have one ownership at a time, here the ownership of
         s1 moves to s2 and then s2 is being used. Here move occurs because String does not
         implement Copy trait. Rust also invalidates the first variable, instead of being
         called a shallow copy, it’s known as a move.
@@ -29,7 +29,7 @@ fn main() {
 
     /*
         Here also the ownership of s1 is moved to get_ownership. So s1 is no longer owned s1
-        and is droped.
+        and is dropped.
     */
     // let s1 = String::new();
     // get_ownership(s1);
@@ -37,7 +37,7 @@ fn main() {
 
     // String type can be mutable
     let mut str = String::from("some string");
-    str.push_str(", and some ohter");
+    str.push_str(", and some other");
 
     /*
         String and string literal both can be mutated by binding them to a mutable variable. But
@@ -92,7 +92,7 @@ fn main() {
 
     println!("{s2}");
 
-    // Aslo there cannot be mutable and immutable borrowing at a time in a scope
+    // Also there cannot be mutable and immutable borrowing at a time in a scope
     // let mut str = String::from("Hello");
     // let s1 = &mut str;
     // let s2 = &str;
@@ -141,7 +141,7 @@ fn first_word(s: &str) -> &str {
 /*
     Dangling Reference (Dangling Pinter):
     This code is trying to return a reference to a value which is owned by the function
-    and droped at the end of the scope.
+    and dropped at the end of the scope.
 */
 // fn dangling_ref() -> &String {
 //     let s = String::from("Hello");
@@ -151,7 +151,7 @@ fn first_word(s: &str) -> &str {
 
 /*
     But this code works. Although the scope finished, as the ownership is moved out, nothing
-    is droped and deallocated
+    is dropped and deallocated
 */
 fn _no_dangling() -> String {
     let s = String::from("Hello");
