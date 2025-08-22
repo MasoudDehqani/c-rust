@@ -5,8 +5,8 @@
 */
 
 use std::env;
-use std::fs::File;
-use std::io::Read;
+use std::fs;
+use std::io::ErrorKind;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -14,19 +14,36 @@ fn main() {
     let query = &args[1];
     let file_path = &args[2];
 
-    println!("searching for {query} in the file {file_path}");
+    println!("searching for '{query}' in the file -> {file_path}");
 
-    let mut file_content = String::new();
-    let file = File::open(file_path);
+    let file_content = fs::read_to_string(file_path);
 
-    file.iter().for_each(|mut f| {
-        let r = f.read_to_string(&mut file_content);
-        r.expect("");
-    });
+    match &file_content {
+        Ok(s) => {
+            let found = s.find(query);
 
-    let found = file_content.find(query);
-    match found {
-        Some(i) => println!("{}", file_content.split_off(i)),
-        None => println!("Not Found"),
+            match found {
+                Some(u) => {
+                    let (_, second) = s.split_at(u);
+                    let target = get_first_word(second);
+                    println!("found '{target}' at {u}");
+                }
+                None => println!("Not Found"),
+            }
+        }
+        Err(e) => match e.kind() {
+            ErrorKind::NotFound => println!("Not Found"),
+            _ => println!("NOTHING"),
+        },
     };
+}
+
+fn get_first_word(s: &str) -> &str {
+    for (i, b) in s.bytes().enumerate() {
+        if b == b' ' {
+            return &s[..i];
+        }
+    }
+
+    &s[..]
 }
