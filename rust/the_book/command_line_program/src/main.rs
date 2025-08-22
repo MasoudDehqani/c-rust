@@ -21,30 +21,11 @@ fn main() {
 
     match &file_content {
         Ok(s) => {
-            let found = s.find(query);
-
-            match found {
-                Some(u) => {
-                    let (_, second) = s.split_at(u);
-                    let target = get_first_word(second);
-                    println!("found '{target}' at {u}");
-                }
-                None => println!("Not Found"),
-            }
+            io_reader::utils::handle_content_in_query(&s, &query);
         }
         Err(e) => match e.kind() {
             ErrorKind::NotFound => println!("Not Found"),
             _ => println!("NOTHING"),
         },
     };
-}
-
-fn get_first_word(s: &str) -> &str {
-    for (i, b) in s.bytes().enumerate() {
-        if b == b' ' {
-            return &s[..i];
-        }
-    }
-
-    &s[..]
 }
