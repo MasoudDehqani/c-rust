@@ -1,3 +1,9 @@
+/*
+    Unlike build method on Config struct, there is at least one &str type in parameters and
+    the &str in the return type can relate to one of them.
+    So a lifetime specifier should be declared after function name, and then it should be
+    used to show the relationship between parameters and return type.
+*/
 pub fn search_query_in_content<'a>(content: &'a str, query: &str) -> Vec<&'a str> {
     let mut res: Vec<&str> = vec![];
 

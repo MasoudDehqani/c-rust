@@ -40,6 +40,13 @@ impl Config {
     }
 }
 
+/*
+    In general, 'dyn Error' means any error. (this Error here is std::error::Error)
+    To be more precise, 'dyn Error' means it can be any error like
+    std::io::Error or std::fmt::Error.
+    Note that the std::error::Error is a trait, not a concrete type, but std::io::Error and
+    std::fmt::Error are types (they are structs).
+*/
 pub fn mini_grep(query: &str, file_path: &str) -> Result<(), Box<dyn Error>> {
     let file_content = std::fs::read_to_string(file_path)?;
 
