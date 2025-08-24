@@ -5,6 +5,7 @@ mod utils;
 pub struct Config {
     pub query: String,
     pub file_path: String,
+    pub is_case_sensitive: bool,
 }
 
 /*
@@ -51,7 +52,13 @@ impl Config {
             None => return Err("file path is not provided"),
         };
 
-        Ok(Config { query, file_path })
+        let is_case_sensitive = std::env::var("IGNORE_CASE").is_ok();
+
+        Ok(Config {
+            query,
+            file_path,
+            is_case_sensitive: !is_case_sensitive,
+        })
     }
 }
 
@@ -81,10 +88,18 @@ impl Config {
     - use generics when you want speed and compile time knowledge
     - use trait objects when you need flexibility and runtime polymorphism
 */
-pub fn mini_grep(query: &str, file_path: &str) -> Result<(), Box<dyn Error>> {
+pub fn mini_grep(
+    query: &str,
+    file_path: &str,
+    is_case_sensitive: bool,
+) -> Result<(), Box<dyn Error>> {
     let file_content = std::fs::read_to_string(file_path)?;
 
-    let search_result = utils::search::search_query_in_content(&file_content, &query);
+    let search_result = match is_case_sensitive {
+        true => utils::search::search_query_in_content(&file_content, query),
+        false => utils::search::search_query_in_content_case_insensitive(&file_content, query),
+    };
+
     println!("{:?}", search_result);
 
     Ok(())
