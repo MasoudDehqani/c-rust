@@ -8,6 +8,9 @@ use std::env;
 
 use command_line_program::{Config, mini_grep};
 
+/*
+    How if..let structure works here???
+*/
 fn main() {
     let config = Config::build(env::args()).unwrap_or_else(|err| {
         println!("{err}");
