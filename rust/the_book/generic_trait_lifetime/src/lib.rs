@@ -32,7 +32,7 @@ pub trait Summary {
 // }
 
 /*
-    blanket implementation: conditionally implement a trait for any type that implementsanother
+    blanket implementation: conditionally implement a trait for any type that implements another
     another trait
 */
 // impl<T: Display> ToString for T {

@@ -39,6 +39,47 @@ pub struct Config {
     that implements Iterator with specifying String as the type of Item.
 
     ??? How the associated types differ with generic type???
+    - Here are some existing explanations for the question:
+    using generics in a trait with which the implementors should specify a concrete type, the implementor
+    of a type (for example a struct) for the trait should specify a concrete type and the trait can be
+    implemented multiple times for the struct and different types can be placed to the type parameter. So,
+    the trait can be implemented multiple times for a struct.
+    In the examples below, it is clear that the implementations for the trait with generic is more than
+    one for multiple types for the type parameter, but there can only be one implementation for the trait
+    with associated type.
+
+    examples:
+    struct SomeStruct;
+
+    trait SomeTrait<T> {
+        fn someMethod(&self) -> T;
+    }
+
+    impl SomeTrait<i32> for SomeStruct {
+        fn someMethod(&self) -> i32 {
+            // snip
+        }
+    }
+
+    impl SomeTrait<String> for SomeStruct {
+        fn someMethod(&self) -> String {
+            // snip
+        }
+    }
+
+    trait SomeTrait {
+        type SomeType;
+
+        fn someMethod(&self) -> Self::SomeType;
+    }
+
+    impl SomeTrait {
+        type SomeType = i32;
+
+        fn someMethod(&self) -> Self::SomeType {
+            // snip
+        }
+    }
 */
 impl Config {
     pub fn build<T: Iterator<Item = String>>(mut args: T) -> Result<Config, &'static str> {
