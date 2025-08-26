@@ -1,0 +1,14 @@
+- What consume an interator
+map method
+for loop
+
+- both iterators and futures are lazy. They do nothing unless you explicitly ask them to do
+
+- async code needs a runtime
+- a program's main function can initialize a runtime but it is not a runtime itself
+
+- unrolling a for loop means create manual code for each loop iteration. it is a performance optimization can be done by compilers
+
+- while let conditional loop
+
+- polling
