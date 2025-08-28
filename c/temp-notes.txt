@@ -55,3 +55,18 @@ command-line arguments
 - size is specified by type
 
 - variable modifiers
+
+- In C, int data type takes either 2 bytes or 4 bytes of memory, depending on the machine
+
+- This is possible in C, but not in Rust:
+int var1, var2, var3;
+var1 = var2 = var3 = 10;
+
+- This is possible in Rust, but not in C:
+let x = 1;
+let x = 2;
+(this is called shadowing in Rust)
+
+- In C, starting variable names with _ is valid, but not recommended. Because huge number of variables starting with _ are reserved for
+system use
+- initialization -> assigning a value to variable
