@@ -20,6 +20,11 @@
 
 - stdio.h -> standard input/output header file
 
+- C standard library
+- C standard library functions VS compiler built-in functions
+
+- building VS compiling
+
 - C compiler looks for 'main' function to start compilation. This particular function is the entry point of the C program.
 - The 'main' function is the entry point of Rust programs too.
 
