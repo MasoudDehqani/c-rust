@@ -37,3 +37,21 @@ command-line arguments
 
 - screaming snake case -> SCREAMING_SNAKE_CASE
 - screaming snake case is used in both C and Rust for naming constants
+
+- compiling and running are separate in both C and Rust
+
+- declarations of functions VS actual definitions of functions
+
+- linker is a program which maps the declarations (prototypes) mentions by preprocessor to the actual code (actual definitions).
+
+- preprocessor, linker
+
+- Generally, in variable definition, we can say a value is bound to a name
+- variables simply are names that point to a memory location
+
+- declaration -> announcing properties of variable to the compiler
+- definition -> allocating memory for a variable
+- properties of variable -> name and size
+- size is specified by type
+
+- variable modifiers
