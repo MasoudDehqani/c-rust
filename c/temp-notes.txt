@@ -1,0 +1,21 @@
+- Unix OS first was written in assembly language, then re-written by C language. It was the first use of C.
+- Assembly language is not portable. it is different for different machines.
+- C language is portable
+
+- C is a procedural language
+- procedure or function or subroutine
+
+- high or low in high-level languages or low-level languages refers to the degree of abstraction
+- abstraction in programming -> hiding system level details
+
+- C is a middle level language
+
+- C can integrate assembly language code into its codes. It is possible to write assembly code in C code
+- Rust can integrate C codes into its codes
+
+- preprocessor directive
+- output of preprocessor is expanded source code
+
+- files with .h extension are called header files. header files usually consist of declarations or prototypes
+
+- stdio.h -> standard input/output header file
