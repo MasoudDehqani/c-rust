@@ -7,3 +7,43 @@ int x = 1, y = 2, z = 3;
 let x = 1;
 let x = 2;
 (this is called shadowing in Rust)
+
+- range -> upper and lower limit of some set of data
+
+- decimal number system -> base 10 number system
+example:
+568 -> 5 * (10**2) + 6 * (10**1) + 8 * (10**0)
+
+- binary number system -> base 2 number system
+example:
+1001 -> 1 * (2**3) + 0 * (2**2) + 0 * (2**1) + 1 * (2**0) 
+the binary example above is a 4-bit data
+
+- each digit in each number system has a place value
+
+- range of 4-bit data:
+minimum -> 0000 -> 0
+maximum -> 1111 -> 15
+so range of 4 bit data is -> 0000 to 1111
+converting it to decimal -> 0 to 15
+- formula to calculate the maximum is -> (2**n) - 1
+(n is the number of bits)
+
+- scientific notation -> 10e3 -> 10**3
+
+- In two's complement representation, the range of a 2-byte data (16 bits) is:
+unsigned -> 0 to (2**16) - 1 -> 0 to 65535
+signed -> -32768 to +32767
+the formula for calculating the maximum in signed -> -(2**(n-1)) to (2**(n-1)) - 1
+example for 2-byte (16-bit):
+-(2**(16-1)) to (2**(16-1)) - 1
+-32768 to +32767
+
+- There are 3 ways to represent negative numbers in computer
+1. signed magnitude
+2. one's (1's) complement
+3. two's (2's) complement
+
+Integer types in C and Rust:
+- In C, there is only an 'int' type for integers, with some modifiers (short, long, signed, unsigned)
+- In Rust, there are separate types for integers (u8, i8, u16, i16, u32, i32, u64, i64, u128, i128, isize, usize)

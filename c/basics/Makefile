@@ -1,8 +1,8 @@
 CC = gcc
 CFLAGS = -std=c17 -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wuninitialized -Werror -fdiagnostics-color=always
 
-SRC = test.c
-OUT = test
+SRC = basics.c
+OUT = basics
 
 all: $(OUT)
 
