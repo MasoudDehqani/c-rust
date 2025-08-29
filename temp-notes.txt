@@ -67,3 +67,30 @@ example for 2-byte (16-bit):
 Integer types in C and Rust:
 - In C, there is only an 'int' type for integers, with some modifiers (short, long, signed, unsigned)
 - In Rust, there are separate types for integers (u8, i8, u16, i16, u32, i32, u64, i64, u128, i128, isize, usize)
+
+In a 3-bit unsigned binary number, for example, the maximum value is: 111 witch is 7 in decimal.
+Representing 8 in would be 1000 in binary, but since the maximum in our 3-bit number is of
+3 bits, the extra bit in the most significant place can't be displayed. So, 8 would be
+displayed as 0 in the 3-bit number, 9 would be 1, 10 would be 2 and so on...
+
+- It is equivalent to mod (modulo) function for unsigned int. For example in the 3-bit example, it is mod 8 (mod 2**3):
+examples:
+8 mod 8 -> 0
+9 mod 8 -> 1
+10 mod 8 -> 2
+formula for n bit unsigned data: mod 2**n
+
+- modulo VS modulus -> modulo is the operator, modulus is a noun which is the result of "x mod y"
+- For example clock is mod 12 function -> 13 mod 12 = 1, 14 mod 12 = 2, 15 mod 12 = 3
+
+As in unsigned data the overflow will return back to its minimum (if trying to assign a value more than the maximum), for signed data also 
+the integer overflow will return back to its minumum. For example in a 4-bit signed int, adding 1 to the maximum which is 7, will set the value to -8.
+- Note that trying to assign a value less than the minumum, the cycling will result in the returning back to the maximum value. Example:
+let x: u8 = -129 -> 127
+in this example we imagine that the value -129 would not be set at compiler time since the compiler rejects it
+
+- Note that the representation of negative integers in both C and Rust is based on the two's complement
+- Rust behaves differently in debug mode and release mode regarding integer overflow. In debug mode it is paniced and in release mode
+the overflow occurs. Note that this would be the case if the value which is to be stored in the value with the specified type
+is not known at compile time. If for example you want to explicitly assign value 128 to a variable with u8 type, the compiler rejects
+this, but in C, on the other hand, this would result in a warning (at least in gcc compiler as I tested it)
