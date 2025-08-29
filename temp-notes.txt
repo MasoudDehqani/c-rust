@@ -1,3 +1,23 @@
+- building VS compinling
+
+- C compiler looks for 'main' function to start compilation. This particular function is the entry point of the C program.
+- The 'main' function is the entry point of Rust programs too.
+
+- Both C and Rust return 0 for successful compilation of the program and return an integer other than 0 for failed compilation
+
+- In C the main function mostly does not take any parameters. But it can take argc and argv as parametes whose valus are provided at runtime by
+command-line arguments
+
+- naming convention in both C and Rust is sanke_case
+
+- screaming snake case -> SCREAMING_SNAKE_CASE
+- screaming snake case is used in both C and Rust for naming constants
+
+- compiling and running are separate in both C and Rust
+
+- C can integrate assembly language code into its codes. It is possible to write assembly code in C code
+- Rust can integrate C codes into its codes
+
 - These are possible in C, but not in Rust:
 int var1, var2, var3;
 var1 = var2 = var3 = 10;

@@ -27,6 +27,9 @@ int main()
   printf("the range of unsigned short int is: %u to %u\n", minimum_of_unsigned_short_int, maximum_of_unsigned_short_int);
   printf("the range of long int is: %ld to %ld\n", minimum_of_long_int, maximum_of_long_int);
   printf("the range of unsigned long int is: %lu to %lu\n", minimum_of_unsigned_long_int, maximum_of_unsigned_long_int);
+
+  printf("size of long int: %ld bytes\n", sizeof(long int));
+  printf("size of long long int: %ld bytes\n", sizeof(long long int));
   return 0;
 }
 
@@ -68,5 +71,10 @@ example -> sizeof(int)
 - sizeof is an operator, not a function
 
 - range -> upper and lower limit of some set of data
+
+- if sizeof(long int) = 4 bytes
+then sizeof(long lont int) = 8 bytes
+- if sizeof(long int) = 8 bytes
+then sizeof(long long int) = 8 bytes
 
 */
