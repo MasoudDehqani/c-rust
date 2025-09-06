@@ -25,6 +25,30 @@
     - trait object incur some runtime cost
 */
 
+use oop::{Button, Gui, Image};
+
+struct Screen {
+    components: Vec<Box<dyn Gui>>,
+}
+
+impl Screen {
+    fn run(&self) {
+        for component in self.components.iter() {
+            component.draw();
+        }
+    }
+}
+
+struct Link {
+    href: String,
+}
+
+impl Gui for Link {
+    fn draw(&self) {
+        println!("href: {}", self.href)
+    }
+}
+
 #[derive(Debug)]
 enum Various {
     Text(String),
@@ -57,4 +81,23 @@ fn main() {
     heterogenous_like_vector
         .iter()
         .for_each(|e| println!("{e}"));
+
+    let components = vec![
+        Box::new(Link {
+            href: "h".to_string(),
+        }) as Box<dyn Gui>,
+        Box::new(Image {
+            width: 20,
+            height: 25,
+        }),
+        Box::new(Button {
+            text: String::from("button text"),
+            width: 13,
+            height: 7,
+        }),
+    ];
+
+    let screen = Screen { components };
+
+    screen.run();
 }
