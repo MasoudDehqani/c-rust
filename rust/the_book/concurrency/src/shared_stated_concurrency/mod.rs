@@ -17,6 +17,8 @@
   TODO: try creating a Rust program that has a deadlock; then research deadlock mitigation strategies for
   mutexes in any language and have a go at implementing them in Rust. The standard library API
   documentation for Mutex<T> and MutexGuard offers useful information
+
+  TODO: read more about Sync and Send traits and how concurrency can be extensible in Rust
 */
 
 use std::{
@@ -46,6 +48,9 @@ pub fn share_state() {
 
 /*
   STEP 4
+
+  - using Arc::clone will only increment the reference count, and it doesn't make a deep copy of
+  all the data like most types' implementations of clone do
 */
 fn _share_state_step_4() {
     let counter = Arc::new(Mutex::new(0));
@@ -69,6 +74,10 @@ fn _share_state_step_4() {
 
 /*
   STEP 3
+
+  Here in this code, using Rc<T> does not work because Rc<T> is not thread-safe. So, the compiler
+  will throw an error saying that "Rc<Mutex<i32>> cannot be shared between threads safely". And also
+  "the trait `Send` is not implemented for `Rc<Mutex<i32>>`"
 */
 // fn _share_state_step_3() {
 //     let counter = Rc::new(Mutex::new(0));
@@ -92,6 +101,12 @@ fn _share_state_step_4() {
 
 /*
   STEP 2
+
+  Here in this code, even with the use of "move" keyword for the closure passing to the spawn, the compiler
+  throws an error saying that the counter "moved into closure here, in previous iteration of loop".
+  Here we used move correctly, so the counter ownership is moved into the closure, but creating multiple
+  threads in the loop requires multiple ownerships of the counter Mutex. So we need to use a tool which
+  make it possible.
 */
 // fn _share_state_step_2() {
 //     let counter = Mutex::new(0);
@@ -116,6 +131,9 @@ fn _share_state_step_4() {
 
 /*
   STEP 1
+
+  mutex -> mutual exclusion
+  - the mutex is described as guarding the data it holds via the locking system
 */
 fn _share_state_step_1() {
     let n = Mutex::new(0);

@@ -1,6 +1,10 @@
 /*
   Here’s the idea in a slogan from the Go language documentation:
   “Do not communicate by sharing memory; instead, share memory by communicating.”
+  - there are two approaches regarding the quote from the Go language documentation:
+  1. communicating by sharing memory: when threads communicate by using shared memory (this is not recommended)
+  2. share memory by communicating: when threads communicate with each other and regulate
+  thir use of shared memory (for example using mutexes and locks)
 
   - channel
   - Rust standard library provides an implementation of channels

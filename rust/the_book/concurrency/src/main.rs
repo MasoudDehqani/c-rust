@@ -31,6 +31,11 @@
     the handle terminates
     - the T type would be the type of the return value of the closure passed to the spawn
 
+    TODO: try creating a Rust program that has a deadlock; then research deadlock mitigation strategies for
+    mutexes in any language and have a go at implementing them in Rust. The standard library API
+    documentation for Mutex<T> and MutexGuard offers useful information
+
+    TODO: read more about Sync and Send traits and how concurrency can be extensible in Rust
 */
 
 use std::thread;
@@ -56,11 +61,10 @@ fn main() {
     handle.join().unwrap();
 
     /*
-        closures decides whether they take ownership of the values from their environment or borrow
-        them, based on the code inside its body. so here without "move", the closure won't take the
-        ownership of the v vector. it only take a reference to v vector (as the code inside its body
-        does not need ownership of the vector). here Rust in fact infer how to capture v.
-        Rust compiler does not allow the closures passed to spawned threads take a reference to values
+        Closures decides whether they take ownership of the values from their environment or borrow
+        them, based on the code inside its body.
+        So here in this code without "move", the closure will try to take a reference to the v vector, but
+        the Rust compiler does not allow the closures passed to spawned threads take a reference to values
         in their environment. Because there is no guarantee that the values live long enough until the
         thread finishes its work. Even using join on the handle won't work if we remove the move
         before the closure, because the main thread immediately will drop the vector after its last
@@ -79,4 +83,12 @@ fn main() {
 
     message_passing_channel::pass_message();
     shared_stated_concurrency::share_state();
+}
+
+fn _playground() {
+    for _ in 0..5 {
+        thread::spawn(|| {
+            println!("");
+        });
+    }
 }
