@@ -36,6 +36,8 @@
     documentation for Mutex<T> and MutexGuard offers useful information
 
     TODO: read more about Sync and Send traits and how concurrency can be extensible in Rust
+
+    - communication over channel VS communication over static memory (if the data is read-only)
 */
 
 use std::thread;
