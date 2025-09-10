@@ -25,15 +25,6 @@
   implemented to to use Arc<T> by default, is that thread safety comes with a performance penalty that
   you only want to pay when you really need it.
 
-
-  Box<T>
-  box is the most straightforward smart pointer in Rust whose type is writter Box<T>
-
-  - boxes allow you to store data on the heap rather than the stack. what remaing on the stack is
-  the pointer to the heap data
-  - boxes don't have performance overhead, other than storing their data on the heap
-  instead of on the stack
-
   - Rust has variety of smart pointers defined in standard library
   - you can also write your own smart pointer
   - smart pointers are usually implemented using structs and they implement the Deref and Drop traits
