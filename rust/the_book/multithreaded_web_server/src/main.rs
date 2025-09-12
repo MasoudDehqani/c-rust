@@ -29,6 +29,11 @@ fn handle_connection(mut stream: TcpStream) {
     stream.write_all(res.as_bytes()).unwrap();
 }
 
+/*
+  It is a code to show how a single-threaded tcp server respond to requests when one of the
+  requests requires a blocking operation
+  - The code also is refactored
+*/
 fn _handle_connection_with_blocking(mut stream: TcpStream) {
     let buf = BufReader::new(&stream);
     let req_line = buf.lines().next().unwrap().unwrap();
