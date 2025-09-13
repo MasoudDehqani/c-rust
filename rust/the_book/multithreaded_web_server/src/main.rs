@@ -1,3 +1,15 @@
+/*
+  A thread pool allows you to process connections concurrently, increasing the throughput of your server
+  - A traditional DoS attack originates from one computer or source, unlike a Distributed Denial-of-Service (DDoS) attack,
+  which uses multiple compromised systems to flood the target
+
+  - Making the server a multi-threaded one is just one way to improve the throughput of the server. Other
+  options are: fork/join model - signle-threaded async I/O model - multithreaded async I/O model
+
+  - test driven development
+  - compiler driven development
+*/
+
 use std::{
     fs,
     io::{BufRead, BufReader, Read, Write},
@@ -6,11 +18,50 @@ use std::{
     time::Duration,
 };
 
+use multithreaded_web_server::ThreadPool;
+
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
-    listener
-        .incoming()
-        .for_each(|s| handle_connection(s.unwrap()));
+    let pool = ThreadPool::new(4);
+
+    listener.incoming().for_each(|stream| {
+        let stream = stream.unwrap();
+        pool.execute(|| handle_connection(stream));
+    });
+}
+
+/*
+  Note: A saying you might hear about languages with strict compilers, such as Haskell and Rust, is “if the code compiles,
+  it works.” But this saying is not universally true. Our project compiles up until stage 1, but it does absolutely nothing!
+  If we were building a real, complete project, this would be a good time to start writing unit tests to check that the code
+  compiles and has the behavior we want.
+  TODO: unit test with TDD approach
+  TODO: what would be different here if we were going to execute a future instead of a closure?
+*/
+struct _ThreadPoolStage1;
+impl _ThreadPoolStage1 {
+    pub fn _new(_thread_count: u8) -> Self {
+        Self
+    }
+
+    pub fn _execute<F: FnOnce() + Send + 'static>(&self, _f: F) {}
+}
+fn _main_stage_1() {
+    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+    let pool = _ThreadPoolStage1::_new(4);
+
+    listener.incoming().for_each(|stream| {
+        let stream = stream.unwrap();
+        pool._execute(|| handle_connection(stream));
+    });
+}
+
+fn _multithreaded_server_infinite_threads() {
+    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+
+    listener.incoming().for_each(|s| {
+        thread::spawn(|| _handle_connection_with_blocking(s.unwrap()));
+    });
 }
 
 /*
@@ -50,6 +101,7 @@ fn handle_connection(mut stream: TcpStream) {
   It is a code to show how a single-threaded tcp server respond to requests when one of the
   requests requires a blocking operation
   - The code also is refactored
+  - desugaring -> remove the syntactic sugar and expand the code to its original form
 */
 fn _handle_connection_with_blocking(mut stream: TcpStream) {
     let buf = BufReader::new(&stream);
