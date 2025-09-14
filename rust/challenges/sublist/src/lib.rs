@@ -1,3 +1,10 @@
+/*
+  This challenge is an example of sliding window problem
+
+  - The sliding window technique is a technique that can be devised to solve
+  some problems like this.
+*/
+
 use std::cmp::Ordering;
 
 #[derive(Debug, PartialEq, Eq)]
