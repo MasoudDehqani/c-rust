@@ -85,7 +85,7 @@ impl ThreadPool {
         }
 
         Self {
-            workers: workers,
+            workers,
             sender: Some(tx.clone()),
         }
     }
