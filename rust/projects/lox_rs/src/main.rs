@@ -37,8 +37,34 @@
   - derived class or subclass
 
   - indirection
+
+  - The first step in any compiler or interpreter is scanning -> produces tokens -> will then be fed to the parser
 */
 
+use std::{env, process};
+
 fn main() {
-    println!("Hello, world!");
+    let mut args = env::args();
+
+    match args.len() {
+        0 => panic!("How is it possible???"),
+        1 => {
+            let app_binary_name = args.nth(0).unwrap();
+            println!("{}", app_binary_name);
+            run_prompt();
+        }
+        2 => run_file(args.nth(1).unwrap()),
+        3.. => {
+            println!("Usage: lox_rs [script]");
+            process::exit(1);
+        }
+    }
+}
+
+fn run_file(path: String) {
+    println!("{}", path)
+}
+
+fn run_prompt() {
+    println!("PROPMP")
 }
