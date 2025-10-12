@@ -2,6 +2,8 @@ Rust currently provides only the bare essentials for writing async code. Importa
 
 Rust is a low-level language and strives towards minimal runtime overhead. The async runtime therefore has a much more limited scope than many other languages' runtimes
 
+Every Rust program that executes async code has at least one place where it sets up a runtime and executes the futures.
+
 executor (or runtime) - reactor (event loop or driver ) - task - combinator - runtime - scheduler - IPC (inter-process communication) - timer - process - subscriber - polling - external events - async I/O
 
 the term "async runtime" is used to mean either a part of an async runtime or the whole functionality a library provides for async programming
@@ -211,3 +213,60 @@ There are no strong rules about how a runtime must be structured, but some terms
 The Either type is somewhat similar to a Result in that it has two cases. Unlike Result, though, there is no notion of success or failure baked into Either. Instead, it uses Left and Right to indicate “one or the other”
 
 A future that is safe to poll after it  has returned Ready, is sometimes referred to as a fused future
+
+
+All of these can be categorized as different approach of asynchronous programming:
+concurrency
+parallelism
+multithreading
+futures
+streams
+async/await syntax
+in general, tools for managing and coordinating between asynchronous programming
+
+- In the context of Rust, by using async programming, we mean using tools like futures,
+and async/await
+
+- CPU-bound or compute-bound operations -> limited by the computer's potential data
+processing speed within the CPU or GPU
+- I/O bound operations -> limited by the speed of the computer's input and output ->
+example: network traffic, file system read, etc.
+
+- Operating system interrupts provide a form of concurrency
+- As we understand our program at a much more granular level than the OS does, we can
+spot opportunities for concurrency that th OS can't see
+
+- creating threads comes with its own overhead
+- writing non-blocking (asynchronous) code with the style of blocking code -> Rust's async
+abstraction gives us this advantage
+- async codes with futures or async/await syntax is easier to read and probably easier to reason
+
+- multithreading ans async provide coplementary solutions, that you can combine in many cases
+
+- A computer can work concurrently on a single CPU core using tools such as threads, processes, async
+- A computer with multiple cores can do work in parallel
+
+- When working with async in Rust, we're dealing with concurrency. But depending on the hardware,
+the operating system, and the async runtime we are using, that concurrency may also use parallelism
+under the hood
+
+- The key elements of asynchronous programming in Rust are futures and async/await keywords
+- Rust provides Future trait which acts as an interface, so that different async operations
+can be implemented with different data structures but with a common interface
+- In Rust, futures are types that implement the Future trait
+
+- You can apply async keyword to blocks and functions to specify that they can be interrupted and
+resumed
+- You can use await keyword to await a future
+
+- The process of checking with a future to see if its value is available yet, is called polling
+
+- Rust compiles the code written with async/await to the equivalent code with Future trait, much as
+it compiles for loop into equivalent code using Iterator trait
+
+- communication over channel VS communication over static memory (if the data is read-only)
+- awaiting on a join handle is one way of communicate the outcome of the spawned operation
+back to the caller
+
+- ??? spawning in tokio -> spawning a future ???
+- spawning from std::thread -> spawning a thread

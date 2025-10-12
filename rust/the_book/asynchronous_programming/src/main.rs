@@ -1,61 +1,63 @@
-/*
-  All of these can be categorized as different approach of asynchronous programming:
-  concurrency
-  parallelism
-  multithreading
-  futures
-  streams
-  async/await syntax
-  in general, tools for managing and coordinating between asynchronous programming
+use futures::future::{self, Either};
+use reqwest;
+use scraper::Html;
+use std::pin::pin;
+use tokio::{self, runtime::Runtime};
 
-  - In the context of Rust, by using async programming, we mean using tools like futures,
-  and async/await
+#[tokio::main]
+async fn main() {
+    let args: Vec<String> = std::env::args().collect();
+    let url1 = &args[1];
+    let url2 = &args[2];
 
-  - CPU-bound or compute-bound operations -> limited by the computer's potential data
-  processing speed within the CPU or GPU
-  - I/O bound operations -> limited by the speed of the computer's input and output ->
-  example: network traffic, file system read, etc.
+    // let maybe_title_1 = get_title(url1).await;
+    // let maybe_title_2 = get_title(url2).await;
 
-  - Operating system interrupts provide a form of concurrency
-  - As we understand our program at a much more granular level than the OS does, we can
-  spot opportunities for concurrency that th OS can't see
+    match select(get_title(url1), get_title(url2)).await {
+        Either::Left(mut title1) => println!(
+            "The title is : {}",
+            title1.get_or_insert("NO TITLE".to_string())
+        ),
+        Either::Right(mut title2) => println!(
+            "The title is : {}",
+            title2.get_or_insert("NO TITLE".to_string())
+        ),
+    }
 
-  - creating threads comes with its own overhead
-  - writing non-blocking (asynchronous) code with the style of blocking code -> Rust's async
-  abstraction gives us this advantage
-  - async codes with futures or async/await syntax is easier to read and probably easier to reason
+    // match maybe_title {
+    //     Some(title) => println!("The title is : {title}"),
+    //     None => println!("The url {url} had no title"),
+    // }
 
-  - multithreading ans async provide coplementary solutions, that you can combine in many cases
+    // let runtime = Runtime::new().unwrap();
+    // runtime.block_on(async {
+    //     let maybe_title = get_title(url).await;
+    //     match maybe_title {
+    //         Some(title) => println!("The title is : {title}"),
+    //         None => println!("The url {url} had no title"),
+    //     }
+    // });
+}
 
-  - A computer can work concurrently on a single CPU core using tools such as threads, processes, async
-  - A computer with multiple cores can do work in parallel
+async fn get_title(url: &str) -> Option<String> {
+    let response = reqwest::get(url).await.unwrap();
+    let response_text = response.text().await.unwrap();
+    Html::parse_document(&response_text)
+        .select(&scraper::Selector::parse("title").unwrap())
+        .nth(0)
+        .map(|t| t.inner_html())
+}
 
-  - When working with async in Rust, we're dealing with concurrency. But depending on the hardware,
-  the operating system, and the async runtime we are using, that concurrency may also use parallelism
-  under the hood
+async fn select<A, B, F1, F2>(f1: F1, f2: F2) -> Either<A, B>
+where
+    F1: Future<Output = A>,
+    F2: Future<Output = B>,
+{
+    let f1 = pin!(f1);
+    let f2 = pin!(f2);
 
-  - The key elements of asynchronous programming in Rust are futures and async/await keywords
-  - Rust provides Future trait which acts as an interface, so that different async operations
-  can be implemented with different data structures but with a common interface
-  - In Rust, futures are types that implement the Future trait
-
-  - You can apply async keyword to blocks and functions to specify that they can be interrupted and
-  resumed
-  - You can use await keyword to await a future
-
-  - The process of checking with a future to see if its value is available yet, is called polling
-
-  - Rust compiles the code written with async/await to the equivalent code with Future trait, much as
-  it compiles for loop into equivalent code using Iterator trait
-
-  - communication over channel VS communication over static memory (if the data is read-only)
-  - awaiting on a join handle is one way of communicate the outcome of the spawned operation
-  back to the caller
-
-  - ??? spawning in tokio -> spawning a future ???
-  - spawning from std::thread -> spawning a thread
-*/
-
-fn main() {
-    println!("Hello, world!");
+    match future::select(f1, f2).await {
+        Either::Left((a, _)) => Either::Left(a),
+        Either::Right((b, _)) => Either::Right(b),
+    }
 }
