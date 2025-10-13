@@ -270,3 +270,45 @@ back to the caller
 
 - ??? spawning in tokio -> spawning a future ???
 - spawning from std::thread -> spawning a thread
+
+- thread-based concurrency VS futures-based concurrency
+
+bounded vs unbounded channels in Rust:
+- A channel is just a pipe between two ends
+- Messages are stored in a queue (buffer) between them
+- Now the size of that queue — how many messages it can hold — determines if it’s bounded or unbounded
+
+Why bounded is useful:
+- Backpressure control
+Prevents senders from flooding the system with messages.
+Forces the producer to slow down if the consumer can’t keep up.
+
+- Memory safety
+You can’t accidentally fill up memory with millions of pending messages.
+
+- Synchronization aid
+Acts like a semaphore — producer waits until there’s room.
+
+Why unbounded is useful:
+- Simplicity — You don’t need to manage capacity or deal with backpressure.
+- Low-latency producers — Useful when it’s critical that the producer never waits.
+Why it’s dangerous:
+- Memory blow-up risk:
+If the producer sends messages faster than the consumer can process them,
+memory usage can grow indefinitely.
+- No backpressure:
+You can’t slow down producers automatically — the system may become overloaded.
+
+
+Property	          tokio::sync::mpsc::channel(n)	  tokio::sync::mpsc::unbounded_channel()
+Capacity	                  Fixed (n)	                           Unlimited
+Send behavior	          .awaits when full	                      Never .awaits
+Memory use	              Predictable	                      Can grow indefinitely
+Backpressure	                Yes	                                    No
+Recommended          use	Controlled workloads	          Small or occasional messages
+
+This is a fundamental tradeoff: we can either deal with a dynamic number of futures with join_all, as long as they all have the same type, or we can deal with a set number of futures with the join functions or the join! macro, even if they have different types. This is the same scenario we’d face when working with any other types in Rust. Futures are not special, even though we have some nice syntax for working with them, and that’s a good thing.
+
+This is a form of cooperative multitasking, where each future has the power to determine when it hands over control via await points. Each future therefore also has the responsibility to avoid blocking for too long. In some Rust-based embedded operating systems, this is the only kind of multitasking!
+
+- overall performance
