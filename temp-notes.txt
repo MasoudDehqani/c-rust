@@ -15,6 +15,8 @@ command-line arguments
 
 - compiling and running are separate in both C and Rust
 
+- When a single operation takes multiple steps, we say the operation is not atomic
+
 - C can integrate assembly language code into its codes. It is possible to write assembly code in C code
 - Rust can integrate C codes into its codes
 
@@ -36,7 +38,7 @@ example:
 
 - binary number system -> base 2 number system
 example:
-1001 -> 1 * (2**3) + 0 * (2**2) + 0 * (2**1) + 1 * (2**0) 
+1001 -> 1 * (2**3) + 0 * (2**2) + 0 * (2**1) + 1 * (2**0)
 the binary example above is a 4-bit data
 
 - each digit in each number system has a place value
@@ -83,7 +85,7 @@ formula for n bit unsigned data: mod 2**n
 - modulo VS modulus -> modulo is the operator, modulus is a noun which is the result of "x mod y"
 - For example clock is mod 12 function -> 13 mod 12 = 1, 14 mod 12 = 2, 15 mod 12 = 3
 
-As in unsigned data the overflow will return back to its minimum (if trying to assign a value more than the maximum), for signed data also 
+As in unsigned data the overflow will return back to its minimum (if trying to assign a value more than the maximum), for signed data also
 the integer overflow will return back to its minumum. For example in a 4-bit signed int, adding 1 to the maximum which is 7, will set the value to -8.
 - Note that trying to assign a value less than the minumum, the cycling will result in the returning back to the maximum value. Example:
 let x: u8 = -129 -> 127
