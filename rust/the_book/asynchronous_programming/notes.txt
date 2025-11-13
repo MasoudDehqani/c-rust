@@ -300,12 +300,12 @@ memory usage can grow indefinitely.
 You can’t slow down producers automatically — the system may become overloaded.
 
 
-Property	          tokio::sync::mpsc::channel(n)	  tokio::sync::mpsc::unbounded_channel()
-Capacity	                  Fixed (n)	                           Unlimited
-Send behavior	          .awaits when full	                      Never .awaits
-Memory use	              Predictable	                      Can grow indefinitely
-Backpressure	                Yes	                                    No
-Recommended          use	Controlled workloads	          Small or occasional messages
+Property	             tokio::sync::mpsc::channel(n)	  tokio::sync::mpsc::unbounded_channel()
+Capacity	                      Fixed (n)	                           Unlimited
+Send behavior	              .awaits when full	                      Never .awaits
+Memory use	                   Predictable	                    Can grow indefinitely
+Backpressure	                    Yes	                                    No
+Recommended               use	Controlled workloads	         Small or occasional messages
 
 This is a fundamental tradeoff: we can either deal with a dynamic number of futures with join_all, as long as they all have the same type, or we can deal with a set number of futures with the join functions or the join! macro, even if they have different types. This is the same scenario we’d face when working with any other types in Rust. Futures are not special, even though we have some nice syntax for working with them, and that’s a good thing.
 
